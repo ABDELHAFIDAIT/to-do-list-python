@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from sqlalchemy import (create_engine, Table, Column, MetaData, Integer, String, Text, Enum)
+from sqlalchemy import (create_engine, text, Table, Column, MetaData, Integer, String, Text, Enum)
 
 load_dotenv()
 
@@ -23,13 +23,13 @@ tasks = Table(
     Column("id", Integer, primary_key=True, autoincrement=True),
     Column("title", String, nullable=False),
     Column("description", Text, nullable=False),
-    Column("priority", Enum("P1", "P2", "P3", name="enum_priority"), server_default="P1"),
-    Column("status", Enum("Doing", "Done", name="enum_status"), server_default="Doing")
+    Column("priority", Enum("P1", "P2", "P3", name="enum_priority"), server_default=text("'P1'")),
+    Column("status", Enum("Doing", "Done", name="enum_status"), server_default=text("'Doing'"))
 )
 
 # add the Tasks Table in DB
 try :
     metadata.create_all(engine)
-    print("Table Added Succefully !")
+    print("Table Added Successfully !")
 except Exception as e :
     print("Error :\n", e)
