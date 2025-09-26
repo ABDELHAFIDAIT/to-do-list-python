@@ -28,10 +28,10 @@ class TaskManager() :
                 return f"Error: {e}"
     
     
-    def index(self) :
+    def index_by_status(self, status) :
         with self.engine.begin() as conn :
             try :
-                stmt = select(self.table)
+                stmt = select(self.table).where(self.table.c.status == status).order_by(desc(self.table.c.id))
                 result = conn.execute(stmt)
                 rows = result.fetchall()
                 return rows
@@ -61,3 +61,14 @@ class TaskManager() :
                 print("Task Deleted Successfully !")
             except Exception as e :
                 print("Error : \n", e)
+    
+
+    def update_status(self, task_id: int, new_status: str) -> str:
+        try:
+            with self.engine.connect() as conn:
+                stmt = self.table.update().where(self.table.c.id == task_id).values(status=new_status)
+                conn.execute(stmt)
+                conn.commit()
+            return "Status Updated Successfully !"
+        except Exception as e:
+            return f"Error updating status: {e}"
