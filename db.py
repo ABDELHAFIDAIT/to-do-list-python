@@ -22,8 +22,8 @@ tasks = Table(
     Column("id", Integer, primary_key=True, autoincrement=True),
     Column("title", String, nullable=False),
     Column("description", Text, nullable=False),
-    Column("priority", Enum("P1", "P2", "P3", name="enum_priority"), server_default=text("'P1'")),
-    Column("status", Enum("Doing", "Done", name="enum_status"), server_default=text("'Doing'"))
+    Column("priority", Enum("Low", "Medium", "High", name="enum_priority")),
+    Column("status", Enum("Doing", "Done", name="enum_status"))
 )
 
 # add the Tasks Table to DB
