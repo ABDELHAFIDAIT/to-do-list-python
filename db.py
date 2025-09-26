@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
-from sqlalchemy import (create_engine, text, Table, Column, MetaData, Integer, String, Text, Enum)
-
+from sqlalchemy import *
 load_dotenv()
 
 # import .env variables
@@ -27,9 +26,8 @@ tasks = Table(
     Column("status", Enum("Doing", "Done", name="enum_status"), server_default=text("'Doing'"))
 )
 
-# add the Tasks Table in DB
+# add the Tasks Table to DB
 try :
     metadata.create_all(engine)
-    print("Table Added Successfully !")
 except Exception as e :
     print("Error :\n", e)

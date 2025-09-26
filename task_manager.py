@@ -1,6 +1,5 @@
 from db import engine, tasks
-from task import Task
-from sqlalchemy import insert, select, delete
+from sqlalchemy import *
 
 class TaskManager() :
     
@@ -9,21 +8,24 @@ class TaskManager() :
         self.table = table
     
     
-    def add(self, task:Task) :
-        with self.engine.begin() as conn :
-            try :
+    def store(self, title, description, priority, status):
+        with self.engine.begin() as conn:
+            try:
+                if not title.strip():
+                    return "Task's Title Cannot be Empty!"
+                elif not description.strip():
+                    return "Task's Description Cannot be Empty!"
                 conn.execute(
-                    insert(self.table)
-                    .values(
-                        title = task.title,
-                        description = task.description,
-                        priority = task.priority,
-                        status = task.status
+                    insert(self.table).values(
+                        title=title,
+                        description=description,
+                        priority=priority,
+                        status=status
                     )
                 )
-                print("Task Added Successfully !")
-            except Exception as e :
-                print("Error : \n", e)
+                return "Task Added Successfully!"
+            except Exception as e:
+                return f"Error: {e}"
     
     
     def index(self) :
