@@ -1,5 +1,4 @@
 .env
 test.py
 /__pycache__
-index.py
 task_manager.py
